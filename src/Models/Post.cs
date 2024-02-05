@@ -51,7 +51,15 @@ namespace Miniblog.Core.Models
         public bool AreCommentsOpen(int commentsCloseAfterDays) =>
             this.PubDate.AddDays(commentsCloseAfterDays) >= DateTime.UtcNow;
 
-        public string GetEncodedLink() => $"/blog/{System.Net.WebUtility.UrlEncode(this.Slug)}/";
+        //public string GetEncodedLink() => $"/blog/{System.Net.WebUtility.UrlEncode(this.Slug)}/";
+        public string GetEncodedLink()
+        {
+            var result = "/blog/" + System.Net.WebUtility.UrlEncode(this.Slug) + "/";
+
+            // System.Net.WebUtility.UrlEncode() replaces spaces with '+', but we want '%20'
+            // Replace '+' with '%20' in the URL
+            return result.Replace("+", "%20");
+        }
 
         public string GetLink() => $"/blog/{this.Slug}/";
 
